@@ -127,12 +127,12 @@ func ExploreProcess() {
 	fmt.Printf("Memory address of first element: %p\n", &data[0])
 	fmt.Println("Note: Other processes can't see these memory addresses due to process isolation.")
 
-	/*  
+	/*
 		* A process ID is a unique identifier assigned by the operating system kernel to distinguish each running process.
-		* Process isolation is essential because it stops one process from accessing or 
+		* Process isolation is essential because it stops one process from accessing or
 			altering another process’s memory without authorization, which improves system security and stability.
-		* The key difference between a slice header address and element addresses is that the slice header is stored 
-			directly in memory, whereas the elements reside in a contiguous memory block that the header references. 
+		* The key difference between a slice header address and element addresses is that the slice header is stored
+			directly in memory, whereas the elements reside in a contiguous memory block that the header references.
 	*/
 }
 
@@ -141,3 +141,58 @@ func main() {
 }
 
 // part 4- end
+// part 5
+
+func DoubleValue(x int) int {
+	return x * 2
+	/*It wil not modify the original variable as primitives in GO are immutable and are passed by value
+	so a copy is made and sent to the function */
+}
+
+func DoublePointer(x *int) {
+	*x = *x * 2
+	/*It will modify the original variable as we are passing the address of the variable to the function
+	and dereferencing it to change its value */
+}
+
+func CreateOnStack() int {
+	y := 2008
+	return y
+	/* This variable stays on the stack */
+}
+
+func CreateOnHeap() *int {
+	x := new(int)
+	*x = 3008
+	return x
+	/* This variable escapes to the heap */
+}
+
+func SwapValues(a, b int) (int, int) {
+	return b, a
+}
+
+func SwapPointers(a, b *int) {
+	*a, *b = *b, *a
+}
+
+func AnalyzeEscape() {
+	CreateOnStack()
+	CreateOnHeap()
+
+	/*
+	* Variables captured by closures, such as counters or accumulators, are moved to the heap because they need to remain valid after the function has finished executing.
+
+	* A call to new(int) is allocated on the heap when the function CreateOnHeap returns a pointer to that value.
+
+	* Slices created using make or slice literals may be placed on the heap if their underlying array must persist beyond the function’s scope or is returned from the function.
+
+	* Function literals escape to the heap when they capture variables from their scope.
+
+	* Certain return values (such as ~r0) and string literals passed to fmt functions may also escape to the heap.
+
+	* Escaping to the heap means the compiler has decided that the value must outlive the stack frame in which it was created.
+	 */
+}
+
+// part5-END
