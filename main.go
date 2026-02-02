@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 func Factorial(n int) (int, error) {
@@ -115,3 +116,28 @@ func Compose(f func(int) int, g func(int) int) func(int) int {
 }
 
 // PART3 -END
+// part 4
+
+func ExploreProcess() {
+	fmt.Printf("Current Process ID: %d\n", os.Getpid())
+	fmt.Printf("Parent Process ID: %d\n", os.Getppid())
+
+	data := []int{1, 2, 3, 4}
+	fmt.Printf("Memory address of slice: %p\n", &data)
+	fmt.Printf("Memory address of first element: %p\n", &data[0])
+	fmt.Println("Note: Other processes can't see these memory addresses due to process isolation.")
+
+	/*  
+		* A process ID is a unique identifier assigned by the operating system kernel to distinguish each running process.
+		* Process isolation is essential because it stops one process from accessing or 
+			altering another process’s memory without authorization, which improves system security and stability.
+		* The key difference between a slice header address and element addresses is that the slice header is stored 
+			directly in memory, whereas the elements reside in a contiguous memory block that the header references. 
+	*/
+}
+
+func main() {
+	ExploreProcess()
+}
+
+// part 4- end
